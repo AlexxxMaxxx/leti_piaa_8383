@@ -1,0 +1,33 @@
+31
+a n
+a b 6
+a c 6
+a d 8
+a e 9
+b c 3
+c d 4
+d e 3
+b f 4
+c g 4
+d h 5
+e i 6
+f c 9
+g d 10
+d i 10
+i h 7
+h g 8
+g f 8
+f j 5
+g k 5
+h l 5
+i m 7
+i g 8
+k h 12
+h m 12
+m l 7
+l k 8
+k j 8
+j n 6
+k n 9
+l n 8
+m n 6
