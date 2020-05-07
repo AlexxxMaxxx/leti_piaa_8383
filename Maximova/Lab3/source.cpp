@@ -40,7 +40,7 @@ private:
     int flow;
 
 public:
-    Edge(char st, char fn, int cap) :  vertSt(st), vertFn(fn), capacity(cap), flow(0) {}
+    Edge(char st, char fn, int cap) : vertSt(st), vertFn(fn), capacity(cap), flow(0) {}
     void setFlow(int flow, int flag) {
         if (flag) this->flow += flow;
         else this->flow -= flow;
@@ -68,9 +68,9 @@ private:
     int depth;
     int depth_;
 
-    char source;        
+    char source;
     char sink;
-    
+
     std::vector <int> used;                                //просмотренные вершины                     
     std::vector <int> path;                                //построенный путь
     std::vector <Edge> listEdge;                           //для хранения ребер графа, введенных пользователем
@@ -78,7 +78,7 @@ private:
 
 
     int findVertex(int vertex) {                           //для поиска смежных вершин
-        for (int i = 0; i < SIZE; i++) {                   
+        for (int i = 0; i < SIZE; i++) {
             if (!used[i] && matrix[vertex][i] != 0) {      //не посещенные, ребра между которыми не закрыты
                 return i;
             }
@@ -103,7 +103,7 @@ private:
         std::cout << std::setw(depth_) << ' ' << "Текущая вершина: " << char(vertex + char_) << "\n";
 
         if (vertex == (int)sink - char_) {                  //если дошли до стока
-            std::cout << std::setw(depth_) << ' ' <<  "Путь найден!\n";
+            std::cout << std::setw(depth_) << ' ' << "Путь найден!\n";
             std::cout << std::setw(depth_) << ' ';
             printPath();
             clear();
@@ -124,7 +124,7 @@ private:
                     if (findVertex((int)source - char_) == -1) {
                         std::cout << std::setw(depth_) << ' ' << "Путь не найден!\n";
                         return false;    //если невозможно построить путь
-                    }                    
+                    }
                 }
                 depth_ -= 4;
                 std::cout << std::setw(depth_ + 2) << ' ' << "Возвращаемся к предыдущей\n";
@@ -133,11 +133,16 @@ private:
         }
     }
 
-    int minCapacity() {                                    //поиск максимально возможного потока через найденный путь           
+    int minCapacity() {                                    //поиск максимально возможного потока через найденный путь  
         int min = 9999;
-        for (int i = 0, j = 1; j < path.size(); i++, j++)
-            if (matrix[path[i]][path[j]] < min)
-                min = matrix[path[i]][path[j]];
+        for (int i = 0, j = 1; j < path.size(); i++, j++) {
+            std::cout << std::setw(depth) << ' ' << "Итерация: " << j << ". Максимальный поток: " << min << "\n";
+            if (matrix[path[i]][path[j]] < min) {
+                std::cout << std::setw(depth) << ' ' <<  matrix[path[i]][path[j]] << " < " << min << " - найдено ребро, с меньшей пропускной способностью.\n";
+                    min = matrix[path[i]][path[j]];
+            }
+        }
+        std::cout << std::setw(depth) << ' ' << "Найденный поток, пропускаемый через путь: " << min << "\n";
         return min;
     }
 
@@ -246,7 +251,7 @@ public:
         }
         else {
             depth += 2;
-            std::cout << std::setw(depth) << ' ' << "Поток пропускаемый  через путь: " << minCapacity() << "\n";
+            std::cout << std::setw(depth) << ' ' << "Запуск поиска максимального потока, то есть такого, который можно пропустить через любое ребро, входящее в путь.\n";
             fillFlow(minCapacity());                                        //пропускание потока
             path.clear();
             std::cout << "....................................................................\n";
@@ -267,7 +272,7 @@ public:
             if (listEdge[i].getFlow() > 0)
                 std::cout << std::setw(depth) << ' ' << listEdge[i].getVertSt() << " --" << listEdge[i].getFlow() << "/" << listEdge[i].getCapacity() << "--> " << listEdge[i].getVertFn() << "\n";
             else
-                std::cout << std::setw(depth) << ' ' <<  listEdge[i].getVertSt() << " --0/" << listEdge[i].getCapacity() << "--> " << listEdge[i].getVertFn() << "\n";
+                std::cout << std::setw(depth) << ' ' << listEdge[i].getVertSt() << " --0/" << listEdge[i].getCapacity() << "--> " << listEdge[i].getVertFn() << "\n";
         } std::cout << "\n";
 
         //stepik
